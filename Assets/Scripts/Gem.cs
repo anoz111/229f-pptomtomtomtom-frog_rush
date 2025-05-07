@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Gem : MonoBehaviour
 {
-    [SerializeField] int coinValue = 1;  // จำนวนคะแนนที่ได้จากการเก็บเหรียญ
+    [SerializeField] int coinValue = 1;
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
@@ -10,8 +10,8 @@ public class Gem : MonoBehaviour
             PlayerMovement player = other.GetComponent<PlayerMovement>();
             if (player != null)
             {
-                player.AddScore(coinValue);  // เพิ่มคะแนนให้กับผู้เล่น
-                Destroy(gameObject);  // ลบเหรียญออกจากเกม
+                player.AddScore(coinValue);
+                Destroy(gameObject);
             }
         }
     }

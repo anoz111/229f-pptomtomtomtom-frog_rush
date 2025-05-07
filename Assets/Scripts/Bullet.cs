@@ -7,20 +7,20 @@ public class Bullet : MonoBehaviour
 
     void Start()
     {
-        Destroy(gameObject, lifetime); // ลบกระสุนหลังผ่านไป 3 วิ
+        Destroy(gameObject, lifetime);
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Enemy")) // ตรวจว่า collider ที่โดนคือศัตรู
+        if (other.CompareTag("Enemy"))
         {
             FrogEnemy frog = other.GetComponent<FrogEnemy>();
             if (frog != null)
             {
-                frog.TakeDamage(damage); // ทำดาเมจ 1
+                frog.TakeDamage(damage);
             }
 
-            Destroy(gameObject); // ทำลายกระสุนหลังชน
+            Destroy(gameObject);
         }
     }
 }
