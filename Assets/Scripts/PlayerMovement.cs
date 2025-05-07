@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;  // ใช้สำหรับ UI Slider
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;  // ใช้สำหรับ UI Slider
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] GameObject deathEffect;
 
     [SerializeField] TextMeshProUGUI scoreText;  // TextMeshPro สำหรับแสดงคะแนน
+    public GameOverUI gameOverUI;
     int score = 0;
 
     [SerializeField] Slider hpSlider;  // ตัวแปรสำหรับแถบเลือด
@@ -69,6 +71,7 @@ public class PlayerMovement : MonoBehaviour
                 Instantiate(deathEffect, transform.position, Quaternion.identity);
             Debug.Log("Player Died!");
             Destroy(gameObject);  // ทำลายผู้เล่นเมื่อ HP เป็น 0
+            SceneManager.LoadScene("GameOver");
         }
     }
 
@@ -98,4 +101,8 @@ public class PlayerMovement : MonoBehaviour
             hpSlider.value = (float)currentHP / maxHP;
         }
     }
+    public void GameOver()
+    {
+        gameOverUI.ShowGameOver(score);
+    }    
 }

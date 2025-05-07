@@ -1,20 +1,24 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public void Play()
+    public void PlayGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        // เปลี่ยนชื่อเป็น scene ที่คุณจะเล่นจริง
+        SceneManager.LoadScene("SampleScene");
     }
-    public void Quit()
+    public void ShowCredit()
     {
-        Application.Quit(); 
-        Debug.Log("The Player has Quit the game");
+        SceneManager.LoadScene("Credit");
     }
-
-    public void Credit()
+    public void ExitGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
+        Application.Quit();
+    }
+    public void BackMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
