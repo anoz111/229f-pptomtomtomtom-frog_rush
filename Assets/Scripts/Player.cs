@@ -3,6 +3,9 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+// Analytics
+using Unity.Services.Analytics;
+
 public class Player : MonoBehaviour
 {
     Rigidbody2D rb2d;
@@ -19,10 +22,10 @@ public class Player : MonoBehaviour
     int currentHP;
     [SerializeField] Slider hpSlider;
 
-    [Header("Lives (หัวใจ)")]
-    [SerializeField] int maxLives = 3;                  
-    int currentLives;                                   
-    [SerializeField] TextMeshProUGUI livesText;         
+    [Header("Lives")]
+    [SerializeField] int maxLives = 3;
+    int currentLives;
+    [SerializeField] TextMeshProUGUI livesText;
 
     [Header("Effects")]
     [SerializeField] GameObject deathEffect;
@@ -32,7 +35,6 @@ public class Player : MonoBehaviour
 
     [Header("Scenes")]
     [SerializeField] string gameOverSceneName = "GameOver";
-
 
     Vector2 respawnPoint;
 
@@ -77,6 +79,17 @@ public class Player : MonoBehaviour
 
         if (currentHP <= 0)
         {
+            // ✅ Schema Event: player_die
+            try
+            {
+                var eventData = new CustomEvent("player_die")
+                {
+                    { "remaining_lives", currentLives }
+                };
+                AnalyticsService.Instance.RecordEvent(eventData);
+            }
+            catch { }
+
             if (deathEffect != null)
                 Instantiate(deathEffect, transform.position, Quaternion.identity);
 
@@ -106,40 +119,33 @@ public class Player : MonoBehaviour
     void UpdateHPBar()
     {
         if (hpSlider != null)
-        {
             hpSlider.value = (float)currentHP / maxHP;
-        }
     }
 
     void UpdateLivesText()
     {
         if (livesText != null)
-        {
             livesText.text = "x " + currentLives;
-        }
     }
 
     void Respawn()
     {
         transform.position = respawnPoint;
-
         currentHP = maxHP;
         UpdateHPBar();
-
         rb2d.linearVelocity = Vector2.zero;
     }
 
     void GameOver()
     {
-        Debug.Log("GAME OVER: หัวใจหมดแล้ว");
-
         gameObject.SetActive(false);
     }
+
     public void SetCheckpoint(Vector2 newCheckpoint)
     {
         respawnPoint = newCheckpoint;
-        Debug.Log("Checkpoint set at: " + respawnPoint);
     }
+
     public void AddScore(int amount)
     {
         if (GameManager.Instance != null)
@@ -147,12 +153,12 @@ public class Player : MonoBehaviour
 
         UpdateScoreDisplay();
     }
+
     void UpdateScoreDisplay()
     {
         if (scoreText != null)
         {
             int coinsToShow = 0;
-
             if (GameManager.Instance != null)
                 coinsToShow = GameManager.Instance.Coins;
 

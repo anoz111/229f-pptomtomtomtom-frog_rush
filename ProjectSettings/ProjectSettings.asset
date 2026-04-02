@@ -812,11 +812,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: 018ae35d-a4a4-4d3a-8a67-f00a67ac74af
+  cloudProjectId: bdba94a1-190f-4ca5-a2a3-1a105bb41f8c
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
   projectName: Final_physics
-  organizationId: khamchat2548
+  organizationId: yanawuts
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
