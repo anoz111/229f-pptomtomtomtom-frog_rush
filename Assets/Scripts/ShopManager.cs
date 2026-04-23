@@ -105,9 +105,20 @@ public class ShopManager : MonoBehaviour
         if (coins < keyPrice) { ShowPopup(string.Format(msgCoinNotEnough, keyPrice)); return; }
         if (!GameManager.Instance.SpendCoins(keyPrice)) { ShowPopup(msgSpendError); return; }
 
-        SendPurchaseEvent("key", "coin", keyPrice); // ✅
+        // ✅ Event: ซื้อกุญแจสำเร็จ
+        SendPurchaseEvent("key", "coin", keyPrice);
 
-        RefreshCurrencyUI();
+        // ✅ Event: ยืนยันว่าเข้าด่าน 2 สำเร็จ (ส่งตรงนี้ เพราะรู้แน่ว่า unlock จริง)
+        var gm = GameManager.Instance;
+        var stageUnlockEvent = new CustomEvent("reach_level_2")
+    {
+        { "player_level", gm.Level                }, // หักแล้ว
+        { "gems",         gm.Gems                 },
+        { "orbs",         gm.Orbs                 }
+    };
+        AnalyticsService.Instance.RecordEvent(stageUnlockEvent);
+        Debug.Log($"[Analytics] reach_level_2 → {nextStageSceneName}");
+
         if (lockIcon) lockIcon.SetActive(false);
         GameManager.Instance.UnlockKey();
         GameManager.Instance.ClearRunSnapshot();
