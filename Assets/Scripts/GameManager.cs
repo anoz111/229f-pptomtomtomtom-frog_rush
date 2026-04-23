@@ -7,17 +7,17 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public int Coins { get; private set; } = 0;   
-    public int Gems  { get; private set; } = 0;   
-    public int Orbs  { get; private set; } = 0;  
+    public int Coins { get; private set; } = 0;
+    public int Gems { get; private set; } = 0;
+    public int Orbs { get; private set; } = 0;
 
     public int Level { get; private set; } = 1;
     public int CurrentExp { get; private set; } = 0;
-    public int ExpToNext  { get; private set; } = 10;
+    public int ExpToNext { get; private set; } = 10;
 
-    public int   ExtraHeartQuota { get; private set; } = 0;
-    public float SpeedBonus      { get; private set; } = 0f;
-    public float JumpBonus       { get; private set; } = 0f;
+    public int ExtraHeartQuota { get; private set; } = 0;
+    public float SpeedBonus { get; private set; } = 0f;
+    public float JumpBonus { get; private set; } = 0f;
 
     public bool KeyUnlocked { get; private set; } = false;
 
@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     public event Action OnLevelChanged;
 
     private bool hasSnapshot = false;
-    private int  snapCoins, snapGems, snapOrbs, snapLevel, snapCurrentExp;
+    private int snapCoins, snapGems, snapOrbs, snapLevel, snapCurrentExp;
 
     void Awake()
     {
@@ -139,9 +139,9 @@ public class GameManager : MonoBehaviour
         AddCoins(coinPerOrb);
         return true;
     }
-    public void AddHeartQuota(int amount)  { ExtraHeartQuota += amount; Debug.Log("[GM] ExtraHeartQuota = " + ExtraHeartQuota); }
-    public void AddSpeedBonus(float amount){ SpeedBonus += amount;      Debug.Log("[GM] SpeedBonus = " + SpeedBonus); }
-    public void AddJumpBonus(float amount) { JumpBonus += amount;       Debug.Log("[GM] JumpBonus = " + JumpBonus); }
+    public void AddHeartQuota(int amount) { ExtraHeartQuota += amount; Debug.Log("[GM] ExtraHeartQuota = " + ExtraHeartQuota); }
+    public void AddSpeedBonus(float amount) { SpeedBonus += amount; Debug.Log("[GM] SpeedBonus = " + SpeedBonus); }
+    public void AddJumpBonus(float amount) { JumpBonus += amount; Debug.Log("[GM] JumpBonus = " + JumpBonus); }
 
     public void UnlockKey()
     {
@@ -157,12 +157,12 @@ public class GameManager : MonoBehaviour
 
     public void SaveRunSnapshot()
     {
-        snapCoins      = Coins;
-        snapGems       = Gems;
-        snapOrbs       = Orbs;
-        snapLevel      = Level;
+        snapCoins = Coins;
+        snapGems = Gems;
+        snapOrbs = Orbs;
+        snapLevel = Level;
         snapCurrentExp = CurrentExp;
-        hasSnapshot    = true;
+        hasSnapshot = true;
 
         Debug.Log($"[GM] Snapshot saved: coin={snapCoins}, gem={snapGems}, orb={snapOrbs}, lv={snapLevel}, exp={snapCurrentExp}");
     }
@@ -171,12 +171,12 @@ public class GameManager : MonoBehaviour
     {
         if (!hasSnapshot) return;
 
-        Coins      = snapCoins;
-        Gems       = snapGems;
-        Orbs       = snapOrbs;
-        Level      = snapLevel;
+        Coins = snapCoins;
+        Gems = snapGems;
+        Orbs = snapOrbs;
+        Level = snapLevel;
         CurrentExp = snapCurrentExp;
-        ExpToNext  = GetExpNeededForLevel(Level);
+        ExpToNext = GetExpNeededForLevel(Level);
 
         OnCurrencyChanged?.Invoke();
         OnExpChanged?.Invoke();
